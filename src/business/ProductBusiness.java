@@ -41,6 +41,33 @@ public class ProductBusiness {
         }
         return modelList;
     }
+    public static List<ProductModel> getListProductfull(){
+        Connection conn =null;
+        CallableStatement callSt = null;
+        List<ProductModel> modelList = null;
+        try {
+            conn = MysqlConfig.openConnection();
+            callSt = conn.prepareCall("{call Sp_list_full}");
+            ResultSet rs = callSt.executeQuery();
+            modelList = new ArrayList<>();
+            while (rs.next()){
+                ProductModel prod = new ProductModel();
+                prod.setProduct_Id(rs.getString("Product_Id"));
+                prod.setProduct_Name(rs.getString("Product_Name"));
+                prod.setManufacturer(rs.getString("Manufacturer"));
+                prod.setBatch(rs.getInt("Batch"));
+                prod.setQuantity(rs.getInt("Quantity"));
+                prod.setProduct_status(rs.getBoolean("Product_Status"));
+                prod.setDate(rs.getString("Created"));
+                modelList.add(prod);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            MysqlConfig.closeConnection(conn,callSt);
+        }
+        return modelList;
+    }
 
     public static boolean addProduct(ProductModel prod){
         Connection conn =null;

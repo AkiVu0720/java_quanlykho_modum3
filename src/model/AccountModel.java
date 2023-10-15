@@ -8,6 +8,14 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class AccountModel {
+    public static final String RED = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BACKGROUND_CYAN = "\u001B[45m";
+    public static final String	BACKGROUND_WHITE= "\u001B[47m";
+    public static final String	BACKGROUND_GREEN	= "\u001B[42m";
+    private static final String GREEN = "\u001B[35m";
+    private static final String GREEN2 = "\u001B[32m";
     static Validate validate = new Validate();
     public static final int LENGTH_MIN = 0;
     public static final int LENGTH_MAX_ID = 5;
@@ -103,9 +111,9 @@ public class AccountModel {
             System.out.println("Nhập tên tài khoản");
             String userName = scanner.nextLine();
             byte error = 0;
-            String regex = "^[A-Za-z_][A-Za-z0-9_]{7,29}$";
+            String regex = "^[A-Za-z_][A-Za-z0-9_]{4,29}$";
             if (!Pattern.matches(regex,userName)){
-                System.out.println("Tên không chứa kí tự đặc biệt. từ 6 kí tự");
+                System.out.println("Tên không chứa kí tự đặc biệt. từ 4 kí tự");
                 error++;
             }
 
@@ -156,11 +164,11 @@ public class AccountModel {
                     case 0: return true;
                     case 1: return false;
                     default:
-                        System.out.println("Lựa chọn của bạn không phù hợp");
+                        System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
                         break;
                 }
             }catch (Exception e){
-                System.out.println("Lựa chọn của bạn không phù hợp");
+                System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
             }
         }while (true);
 

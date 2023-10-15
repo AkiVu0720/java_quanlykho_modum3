@@ -29,7 +29,7 @@ public class NotifyBusiness {
                         ProductModel product = new ProductModel();
                         product.setProduct_Id(rs.getString("pr.Product_Id"));
                         product.setProduct_Name(rs.getString("pr.Product_Name"));
-                        product.setQuantity(rs.getInt("Quantity_out"));
+                        product.setQuantity(rs.getInt("bd.Quantity"));
                     modelList.add(product);
                     }
                 } catch (Exception ex){
@@ -55,6 +55,7 @@ public class NotifyBusiness {
                 ProductModel product = new ProductModel();
                 product.setProduct_Id(rs.getString("pr.Product_Id"));
                 product.setProduct_Name(rs.getString("pr.Product_Name"));
+                product.setManufacturer(rs.getString("pr.Manufacturer"));
                 product.setQuantity(rs.getInt("bd.Quantity"));
                 modelList.add(product);
             }
@@ -108,7 +109,7 @@ public class NotifyBusiness {
         int tong = 0;
         try {
             conn = MysqlConfig.openConnection();
-            callSt = conn.prepareCall("{call DoanhThuTheoNgay(?,?)}");
+            callSt = conn.prepareCall("{call DoanhThuTheongay3(?,?)}");
             callSt.setString(1,day);
             callSt.registerOutParameter(2, Types.INTEGER);
             callSt.execute();
@@ -127,17 +128,43 @@ public class NotifyBusiness {
         int tong = 0;
         try {
             conn = MysqlConfig.openConnection();
-            callSt = conn.prepareCall("{call DoanhThuTheoKhoangThoiGian(?,?,?)}");
+            callSt = conn.prepareCall("{call DoanhThuThekhoangtime(?,?,?)}");
             callSt.setString(1,startDay);
             callSt.setString(2,endDay);
             callSt.registerOutParameter(3, Types.INTEGER);
             callSt.execute();
-            tong = callSt.getInt(2);
+            tong = callSt.getInt(3);
         } catch (Exception ex){
             ex.printStackTrace();
         } finally {
             MysqlConfig.closeConnection(conn,callSt);
         }
         return tong;
+    }
+
+
+    //test
+    public static ProductModel test(){
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ProductModel model = null;
+        int tong = 0;
+        try {
+            conn = MysqlConfig.openConnection();
+            callSt = conn.prepareCall("{call test1}");
+            callSt.executeQuery();
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()){
+                model = new ProductModel();
+                model.setQuantity(rs.getInt("tong"));
+                tong= rs.getInt("tong");
+            }
+            System.out.println(tong);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        } finally {
+            MysqlConfig.closeConnection(conn,callSt);
+        }
+        return  model;
     }
 }

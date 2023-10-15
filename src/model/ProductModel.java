@@ -112,14 +112,18 @@ public class ProductModel {
     }
     public void outputProduct(){
         String statusStr = this.product_status?"Hoạt động":"Không hoạt động";
-        System.out.printf("|\t%-10.10s| \t%-15.15s| \t%-15.15s| \t%-5d| \t%-5d| \t%-12.15s| \t%-12.15s| \n",
+        System.out.printf("|\t%-10.10s| \t%-15.15s| \t%-15.15s| \t%-5d| \t%-5d| \t%-12.15s| \t%-12.15s \n",
                 this.product_Id, this.product_Name, this.manufacturer, this.batch, this.quantity, this.date, statusStr);
     }
     public void outputStyle2(){
-        System.out.printf("|\t%-10.10s| \t%-15.15s|\n",
-                this.product_Id, this.product_Name);
-    }
 
+        System.out.printf("|\t%-7.10s| \t%-10.10s| \t%-5d\n",
+                this.product_Id, this.product_Name,this.quantity);
+    }
+    public void test1(){
+        System.out.printf("|\t%-10.10s|\n",
+                this.quantity);
+    }
 
 
     //5 Business methods

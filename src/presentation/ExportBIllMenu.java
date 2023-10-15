@@ -9,14 +9,21 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ExportBIllMenu {
-
+    public static final String RED = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BACKGROUND_CYAN = "\u001B[45m";
+    private static final String GREEN = "\u001B[35m";
+    private static final String GREEN2 = "\u001B[32m";
     public static final boolean BILL_TYPE_IMPORT  = true;
     public static final boolean BILL_TYPE_EXPORT  = false;
 
     public static void runExportBillMenu(Scanner scanner, AccountModel acc) {
         boolean isExit = false;
         do {
-            System.out.println("******************RECEIPT MANAGEMENT****************");
+            System.out.println();
+            System.out.println();
+            System.out.println(BACKGROUND_CYAN+"******************RECEIPT MANAGEMENT****************"+RESET);
             System.out.println("1. Danh sách phiếu xuất");
             System.out.println("2. Tạo phiếu xuất");
             System.out.println("3. Cập nhật thông tin phiếu xuất");
@@ -24,6 +31,7 @@ public class ExportBIllMenu {
             System.out.println("5. Duyệt phiếu xuất");
             System.out.println("6. Tìm kiếm phiếu xuất");
             System.out.println("0. Thoát");
+            System.out.println();
             try {
                 byte choice = Byte.parseByte(scanner.nextLine());
                 switch (choice) {
@@ -37,7 +45,7 @@ public class ExportBIllMenu {
                         ImportBillMenu.runUpdateImportBill(scanner,ImportBillMenu.BILL_TYPE_EXPORT,acc);
                         break;
                     case 4:
-                        ImportBillMenu.BillDetailMenu(ImportBillMenu.BILL_TYPE_EXPORT);
+                        ImportBillMenu.BillDetailMenu(ImportBillMenu.BILL_TYPE_EXPORT,acc);
                         //BillDetailMenu();
                         break;
                     case 5:ImportBillMenu.runcheckBill2(scanner,acc,BILL_TYPE_EXPORT);
@@ -51,11 +59,11 @@ public class ExportBIllMenu {
                         isExit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn của bạn không hợp lệ");
+                        System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
                         break;
                 }
             } catch (Exception e) {
-                System.out.println("Lựa chọn của bạn không hợp lệ");
+                System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
             }
         } while (!isExit);
     }
@@ -102,135 +110,7 @@ public class ExportBIllMenu {
 
         }while (!iExits);
     }
-/*
-    public static void runUpdateImportBill(Scanner scanner) {
-        do {
-            System.out.println("Nhập Bill Id: ");
-            try {
-                int bill = Integer.parseInt(scanner.nextLine());
-                updateBill(bill, BILL_TYPE_IMPORT);
-                return;
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Lựa chọn của bạn không phù hợp");
-            }
-        } while (true);
-    }
 
-    public static void updateBill(int billId, boolean billType) {
-        Scanner scanner = new Scanner(System.in);
-        BillDetailModel billModel = BillBusiness.getBillById(billId,billType);
-        List<BillDetailModel>modelList = BillBusiness.getListBillById(billId,billType);
-        if (billModel != null) {
-            styleOuput();
-            styleOutputBillDetail();
-            billModel.outputBillDetail();
-            boolean isExit = false;
-            do {
-                System.out.println("Menu cập nhật");
-                System.out.println("1. Cập nhật Mã code");
-                System.out.println("2. Cập nhật người tạo.");
-                System.out.println("3. Cập nhật ngày tạo.");
-                System.out.println("4. Cập nhật trạng thái.");
-                System.out.println("5. Cập nhật chi tiết phiếu");
-                System.out.println("0. Thoát");
-                try {
-                    byte choice = Byte.parseByte(scanner.nextLine());
-                    switch (choice) {
-                        case 1:
-                            billModel.setBill_Code(BillModel.validateBillCode(scanner,billType));
-                            if (BillBusiness.updateBillCode(billModel)) {
-                                System.out.println("Cập nhật thành công");
-                            }
-                            break;
-                        case 2:
-                            billModel.setEmp_id_created(BillModel.validteEmpId(scanner));
-                            break;
-                        case 3:
-                            billModel.setDayCreate(BillModel.validateDay(scanner));
-                            break;
-                        case 4:
-                            billModel.setBill_Status(BillModel.validateBill_Status(scanner));
-                            break;
-                        case 5:
-                            updateBillDetail(scanner,modelList,billType);
-                            break;
-                        case 0:
-                            isExit = true;
-                            break;
-                    }
-                    if (BillBusiness.updateBill(billModel, billType)) {
-                        System.out.println(" Cập nhật thành công");
-                    } else {
-                        System.out.println("Cập nhật bill thất bại");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("Lựa chọn của bạn không phù hợp");
-                }
-            } while (!isExit);
-        } else {
-            System.out.println("Mã bill không tồn tại");
-        }
-
-    }
-    public static void updateBillDetail(Scanner scanner, List<BillDetailModel>modelList,  boolean billType ){
-        System.out.println("Nhập mã BillDetail Id:");{
-            try {
-                int billId = Integer.parseInt(scanner.nextLine());
-                boolean test = modelList.stream().anyMatch(billDetailModel -> billDetailModel.getBillDetailId()==billId);
-                if (test){
-                    boolean isExit = false;
-                    BillDetailModel billDetailModel = BillBusiness.getBillDetailById(billId);
-                    do {
-                        System.out.println("1. Cập nhật Mã Sp");
-                        System.out.println("2. Cập nhật Số lượng");
-                        System.out.println("3. Cập nhật Giá");
-                        System.out.println("0. Thoát");
-
-                        byte choice = Byte.parseByte(scanner.nextLine());
-                        switch (choice){
-                            case 1:billDetailModel.setProductId(BillDetailModel.validateProductId(scanner));
-                                break;
-                            case 2:
-                                billDetailModel.setQuantity(BillDetailModel.validateQuantity(scanner));
-                                break;
-                            case 3:
-                                billDetailModel.setPrice(BillDetailModel.validatePrice(scanner));
-                                break;
-                            case 0:
-                                isExit = true;
-                                break;
-                        }
-                    }while (isExit);
-                    if (BillBusiness.updateBill(billDetailModel, billType)) {
-                        System.out.println(" Cập nhật thành công");
-                    } else {
-                        System.out.println("Cập nhật billDetail  thất bại");
-                    }
-                }else {
-                    System.out.println("Mã billDetail không có");
-                }
-            } catch (Exception e){
-                System.out.println("Lựa chọn không hợp lệ");
-            }
-        }
-    }
-
- */
-
-    public static void searchBillByCode(Scanner scanner, AccountModel acc) {
-        styleOuput();
-        styleOutputBillDetail();
-        System.out.println("Nhập Bill code cần tìm: ");
-        String billCode = scanner.nextLine();
-        List<BillModel> modelList = BillBusiness.searchlistBillDetail(billCode,BILL_TYPE_IMPORT,acc);
-        if (modelList.size() > 0) {
-            modelList.stream().forEach(billDetailModel -> billDetailModel.output());
-        } else {
-            System.out.println("Mã Bill không tồn tại");
-        }
-    }
 
     public static boolean checkBill(String billCode, AccountModel acc, boolean billType) {
         Scanner scanner = new Scanner(System.in);
@@ -275,11 +155,11 @@ public class ExportBIllMenu {
                 "billDetailId", "Mã Sp","S.Lg" , "Giá");
     }
 
-    public static void BillDetailMenu() {
+    public static void BillDetailMenu(AccountModel acc) {
         styleOuput();
         styleOutputBillDetail();
         System.out.println();
-        getListImportBillDetail();
+        getListImportBillDetail(acc);
         System.out.println();
     }
     public static void createBillDetail(Scanner scanner) {
@@ -291,8 +171,8 @@ public class ExportBIllMenu {
             System.out.println("Tạo mới thất bại");
         }
     }
-    public static void getListImportBillDetail(){
-        List<BillDetailModel> modelList = BillBusiness.getlistBillDetail2(BILL_TYPE_IMPORT);
+    public static void getListImportBillDetail( AccountModel acc){
+        List<BillDetailModel> modelList = BillBusiness.getlistBillDetail2(BILL_TYPE_IMPORT,acc);
         for (BillDetailModel billDetailModel : modelList) {
             billDetailModel.outputBillDetail();
         }

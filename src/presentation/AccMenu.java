@@ -9,10 +9,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AccMenu {
+    public static final String RED = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BACKGROUND_CYAN = "\u001B[45m";
+    public static final String	BACKGROUND_WHITE= "\u001B[47m";
+    public static final String	BACKGROUND_GREEN	= "\u001B[42m";
+    private static final String GREEN = "\u001B[35m";
+    private static final String GREEN2 = "\u001B[32m";
+    public static final boolean BILL_TYPE_IMPORT  = true;
+    public static final boolean BILL_TYPE_EXPORT  = false;
     public static void runAccMenu(Scanner scanner) {
         boolean isExit = false;
         do {
-            System.out.println("******************ACCOUNT MANAGEMENT****************");
+            System.out.println();
+            System.out.println();
+            System.out.println(BACKGROUND_WHITE+"******************ACCOUNT MANAGEMENT****************"+RESET);
             System.out.println("1. Danh sách tài khoản");
             System.out.println("2. Tạo tài khoản mới");
             System.out.println("3. Cập nhật trạng thái tài khoản");
@@ -37,12 +49,12 @@ public class AccMenu {
                         isExit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn của bạn không hợp lệ");
+                        System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
                         break;
                 }
             } catch(Exception e){
                 e.printStackTrace();
-                System.out.println("Lựa chọn của bạn không hợp lệ");
+                System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
             }
         }while (!isExit) ;
     }
@@ -55,9 +67,9 @@ public class AccMenu {
         AccountModel acc = new AccountModel();
         acc.inputAcc(scanner);
         if (AccBusiness.createAcc(acc)){
-            System.out.println("Tạo tài khoản thành công");
+            System.out.println(GREEN+"Tạo tài khoản thành công"+RESET);
         }else {
-            System.out.println("Tạo tài khoản thất bại");
+            System.out.println(RED+"Tạo tài khoản thất bại"+RESET);
         }
     }
     public static void updateAccStatusById(int accId, Scanner scanner  ) {
@@ -67,33 +79,33 @@ public class AccMenu {
                 acc.outputAcc();
                 boolean accStatus = acc.validateAccStatus(scanner);
                 if (AccBusiness.updateAccStatus(accId, accStatus)) {
-                    System.out.println("Cập nhập thành công");
+                    System.out.println(GREEN2+"Cập nhập thành công"+RESET);
                 } else {
-                    System.out.println("Cập nhật thất bại");
+                    System.out.println(RED+"Cập nhật thất bại"+RESET);
                 }
             }else {
-                System.out.println("Tài khoản không tồn tại");
+                System.out.println(RED+"Tài khoản không tồn tại"+RESET);
             }
     }
     public static void runUpdade(Scanner scanner ){
             do {
                 try {
-                    System.out.println("Nhập Acc id: ");{
+                    System.out.println(YELLOW+"Nhập Acc id: "+RESET);{
                         int accStatus = Integer.parseInt(scanner.nextLine());
                         updateAccStatusById(accStatus,scanner);
                         return;
                     }
                 } catch (NumberFormatException numberFormatException){
-                    System.out.println("Vui lòng nhập kiểu số");
+                    System.out.println(RED+"Vui lòng nhập kiểu số"+RESET);
                 }
                 catch (Exception e){
-                    System.out.println("Tài khoản ko tồn tại");
+                    System.out.println(RED+"Tài khoản ko tồn tại"+RESET);
                 }
             }while (true);
         }
         public static void searchAccByName(Scanner scanner){
 
-                System.out.println("Nhập tên tài khoản");
+                System.out.println(YELLOW+"Nhập tên tài khoản"+RESET);
                 String userName = scanner.nextLine();
                 byte error = 0;
                 List<AccountModel> modelList = AccBusiness.searchAccByName(userName);
@@ -101,14 +113,14 @@ public class AccMenu {
                     styleOutput();
                     modelList.stream().forEach(AccountModel::outputAcc);
                 }else {
-                    System.out.println("Tài khoản không tồn tại");
+                    System.out.println(RED+"Tài khoản không tồn tại"+RESET);
                 }
         }
 
 
     public static void styleOutput(){
-        System.out.printf("|\t%-6s |\t%-15.15s |\t%-10.10s |\t%-10.10s |\t%-10.10s |\t%-10.10s \n",
-                "Acc id", "Tên đăng nhập", "Mật khẩu", "Người dùng", "Chức vụ", "Trạng thái");
+        System.out.printf(BACKGROUND_CYAN+"|\t%-6s |\t%-15.15s |\t%-10.10s |\t%-10.10s |\t%-10.10s |\t%-10.10s "+RESET+"\n",
+                "Acc id", "Tên đăng nhập", "Mật khẩu", "Người dùng", "Chức vụ", "Trạng thái\t\t");
         System.out.printf("|\t%-6s |\t%-15.15s |\t%-10.10s |\t%-10.10s |\t%-10.10s |\t%-10.10s \n",
                 "-----", "-------", "-------", "-----", "------", "--------");
     }

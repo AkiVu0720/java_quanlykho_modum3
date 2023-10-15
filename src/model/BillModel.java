@@ -130,7 +130,7 @@ public class BillModel {
         EmployeeModel  empAuth = EmpBusiness.getEmpById(this.emp_id_auth);
         String nameEmpAuth = empAuth!=null?empAuth.getEmp_Name():"Chưa có";
         String dayauth = this.auth_date ==null ? "Chưa duyệt" : this.auth_date;
-        System.out.printf("|\t%-4d |\t%-7.20s | %-7.10s | %-14.30s | %-9.10s | %-9.10s | %-7.10s | %-7.10s",
+        System.out.printf("|\t%-4d |\t%-7.20s | %-7.10s | %-14.30s | %-9.10s | %-9.10s | %-7.10s | %-5.10s",
                 this.bill_id, this.bill_Code,billType , nameEmpCreated,
                 this.dayCreate, nameEmpAuth, dayauth,statusBill
         );

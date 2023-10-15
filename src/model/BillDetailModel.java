@@ -91,24 +91,7 @@ public class BillDetailModel extends BillModel {
         System.out.printf("|\t\t%-5d |%-7.10s |%-4d |%-5.0f |\n",
                 this.billDetailId,this.productId,quantity , price);
     }
-    /*
-    private int validateBillId(Scanner scanner){
-        do {
-            try {
-                System.out.println("Nhập Mã Bill");
-                int billId = Integer.parseInt(scanner.nextLine());
-                if (BillBusiness.getBillById(billId,)!=null){
-                    return billId;
-                }else {
-                    System.out.println("Mã bill không tồn tại");
-                }
-            }catch (Exception e){
-                System.out.println("Lựa chọn của bạn không hợp lệ");
-            }
 
-        }while (true);
-    }
-    */
     public static String validateProductId(Scanner scanner){
         do {
             System.out.println("Mã sản phẩm:");

@@ -47,15 +47,85 @@ public class BillBusiness {
         }
         return  modelList;
     }
+    public static List<BillModel> getSizeBill(boolean billType, AccountModel acc){
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<BillModel>modelList = null;
+        try {
+            conn = MysqlConfig.openConnection();
+            callSt = conn.prepareCall("{call sizeBillList(?,?)}");
+            callSt.setBoolean(1,billType);
+            callSt.setString(2,acc.getEmp_id());
 
-    public static List<BillDetailModel> getlistBillDetail2(boolean billType){
+            ResultSet rs = callSt.executeQuery();
+            modelList = new ArrayList<>();
+            while (rs.next()){
+                BillModel bill = new BillModel();
+                bill.setBill_id(rs.getInt("Bill_id"));
+                bill.setBill_Code(rs.getString("Bill_Code"));
+                bill.setBill_Type(rs.getBoolean("Bill_Type"));
+                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setDayCreate(rs.getString("Created"));
+                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
+                bill.setAuth_date(rs.getString("Auth_date"));
+                bill.setBill_Status(rs.getInt("Bill_Status"));
+                modelList.add(bill);
+            }
+
+        } catch (Exception ex){
+            ex.printStackTrace();
+        } finally {
+            MysqlConfig.closeConnection(conn,callSt);
+        }
+        return  modelList;
+    }
+    public static List<BillDetailModel> getlistBillDetail2(boolean billType, AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
         List<BillDetailModel>modelList = null;
         try {
             conn = MysqlConfig.openConnection();
-            callSt = conn.prepareCall("{call bill_Details_info2(?)}");
+            callSt = conn.prepareCall("{call bill_Details_info2(?,?)}");
             callSt.setBoolean(1,billType);
+            callSt.setString(2, acc.getEmp_id());
+            ResultSet rs = callSt.executeQuery();
+            modelList = new ArrayList<>();
+            while (rs.next()){
+                BillDetailModel bill = new BillDetailModel();
+                bill.setBill_id(rs.getInt("bd.Bill_id"));
+                bill.setBill_Code(rs.getString("Bill_Code"));
+                bill.setBill_Type(rs.getBoolean("Bill_Type"));
+                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setDayCreate(rs.getString("Created"));
+                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
+                bill.setAuth_date(rs.getString("Auth_date"));
+                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
+                bill.setBillId(rs.getInt("Bill_Id"));
+                bill.setProductId(rs.getString("Product_Id"));
+                bill.setQuantity(rs.getInt("Quantity"));
+                bill.setPrice(rs.getFloat("Price"));
+                modelList.add(bill);
+            }
+
+        } catch (Exception ex){
+            ex.printStackTrace();
+        } finally {
+            MysqlConfig.closeConnection(conn,callSt);
+        }
+        return  modelList;
+    }
+    public static List<BillDetailModel> getlistBillDetail_phantrang(boolean billType, int datapage, int indexpage, AccountModel acc){
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<BillDetailModel>modelList = null;
+        try {
+            conn = MysqlConfig.openConnection();
+            callSt = conn.prepareCall("{call bill_details_Size(?,?,?,?)}");
+            callSt.setBoolean(1,billType);
+            callSt.setInt(2,datapage);
+            callSt.setInt(3,indexpage);
+            callSt.setString(4,acc.getEmp_id());
             ResultSet rs = callSt.executeQuery();
             modelList = new ArrayList<>();
             while (rs.next()){
@@ -236,12 +306,11 @@ public class BillBusiness {
         BillDetailModel bill = null;
         try {
             conn = MysqlConfig.openConnection();
-            callSt = conn.prepareCall("{call Bill_seach_ById2(?,?,?)}");
+            callSt = conn.prepareCall("{call Bill_seach_ById2(?,?,?,?)}");
             callSt.setInt(1,billId);
             callSt.setBoolean(2,billType);
             callSt.setString(3,acc.getEmp_id());
-
-            System.out.println("rollacc: "+ acc.getEmp_id());
+            callSt.setBoolean(4,acc.isRole_acc());
             ResultSet rs = callSt.executeQuery();
             while (rs.next()){
                 bill = new BillDetailModel();
@@ -367,10 +436,10 @@ public class BillBusiness {
         }
         return  bill;
     }
-    public static List<BillModel> searchlistBillDetail(String billCode,boolean billType, AccountModel acc){
+    public static List<BillDetailModel> searchlistBillDetail(String billCode,boolean billType, AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
-        List<BillModel>modelList = null;
+        List<BillDetailModel>modelList = null;
         try {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call Bill_seach_Code(?,?,?)}");
@@ -380,7 +449,8 @@ public class BillBusiness {
             ResultSet rs = callSt.executeQuery();
             modelList = new ArrayList<>();
             while (rs.next()){
-                BillModel bill = new BillModel();
+                BillDetailModel bill = new BillDetailModel();
+                bill = new BillDetailModel();
                 bill.setBill_id(rs.getInt("bd.Bill_id"));
                 bill.setBill_Code(rs.getString("Bill_Code"));
                 bill.setBill_Type(rs.getBoolean("Bill_Type"));
@@ -389,6 +459,11 @@ public class BillBusiness {
                 bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
                 bill.setAuth_date(rs.getString("Auth_date"));
                 bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
+                bill.setBillId(rs.getInt("Bill_Id"));
+                bill.setProductId(rs.getString("Product_Id"));
+                bill.setQuantity(rs.getInt("Quantity"));
+                bill.setPrice(rs.getFloat("Price"));
 
                 modelList.add(bill);
             }

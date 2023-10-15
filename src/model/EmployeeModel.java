@@ -112,7 +112,7 @@ public class EmployeeModel {
             case 2: emp_status_mess = "Nghỉ việc";
                 break;
         }
-        System.out.printf("|\t%-10.10s |\t%-15.20s |\t%-10.10s |\t%-20.30s |\t%-10.10s |\t%-10.10s |\t%-10.10s \n",
+        System.out.printf("|\t%-10.10s |\t%-15.20s |\t%-10.10s |\t%-20.30s |\t%-10.10s |\t%-10.10s |\t%-10s \n",
                 this.emp_Id, this.emp_Name, this.birthDay, this.email, this.phone, this.address, emp_status_mess
                 );
     }
