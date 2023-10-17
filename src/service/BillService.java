@@ -333,9 +333,7 @@ public class BillService {
         do {
             try {
                 List<BillDetailModel> billDetailModels = BillRepository.getlistBillDetailSplitPage(billType,5,indexPage, acc);
-                for (BillDetailModel billDetailModel : billDetailModels) {
-                    billDetailModel.outputBillDetail();
-                }
+                billDetailModels.forEach(BillDetailModel::outputBillDetail);
                 if (indexPage == 0){
                     System.out.println(Color.GREEN2+"\t\t\t2.Trang tiếp"+Color.RESET);
                     System.out.println("0. Thoát");

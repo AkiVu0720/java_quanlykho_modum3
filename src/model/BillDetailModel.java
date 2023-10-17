@@ -1,6 +1,5 @@
 package model;
 
-import repository.ProductRepository;
 import Util.Validate;
 import service.ProductService;
 
@@ -12,7 +11,6 @@ public class BillDetailModel extends BillModel {
     public static final int LENGTH_MAX_CODE = 10;
     //1.
     private  int billDetailId;
-    private  int billId;
     private  String productId;
     private  int quantity;
     private  float price;
@@ -24,14 +22,6 @@ public class BillDetailModel extends BillModel {
 
     public void setBillDetailId(int billDetailId) {
         this.billDetailId = billDetailId;
-    }
-
-    public int getBillId() {
-        return billId;
-    }
-
-    public void setBillId(int billId) {
-        this.billId = billId;
     }
 
     public String getProductId() {
@@ -63,9 +53,8 @@ public class BillDetailModel extends BillModel {
     public BillDetailModel() {
     }
 
-    public BillDetailModel(int billDetailId, int billId, String productId, int quantity, int price) {
+    public BillDetailModel(int billDetailId, String productId, int quantity, int price) {
         this.billDetailId = billDetailId;
-        this.billId = billId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
