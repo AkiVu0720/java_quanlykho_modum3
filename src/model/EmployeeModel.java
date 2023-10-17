@@ -1,9 +1,8 @@
 package model;
 
-import business.EmpBusiness;
-import validate.Validate;
+import repository.EmpRepository;
+import Util.Validate;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -122,7 +121,7 @@ public class EmployeeModel {
             System.out.println("Mã nhân viên:");
             String empId = scanner.nextLine();
             byte error = 0;
-            if (EmpBusiness.getEmpById(empId)!=null){
+            if (EmpRepository.getEmpById(empId)!=null){
                 System.out.println("Mã đã tồn tại");
                 error++;
             }
@@ -145,7 +144,7 @@ public class EmployeeModel {
             System.out.println("Họ và tên:");
             String empName = scanner.nextLine();
             byte error = 0;
-            if (EmpBusiness.CheckEmpName(empName)){
+            if (EmpRepository.CheckEmpName(empName)){
                 System.out.println(" Tên đã tồn tại");
                 error++;
             }

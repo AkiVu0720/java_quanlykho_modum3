@@ -1,6 +1,6 @@
-package validate;
+package Util;
 
-import business.BillBusiness;
+import repository.BillRepository;
 import model.BillModel;
 import model.EmployeeModel;
 import model.ProductModel;
@@ -39,7 +39,7 @@ public class Validate {
         });
     }
     public boolean checkBillByCode(String billCode, boolean billType) {
-        BillModel billModel = BillBusiness.getBillByICode(billCode,billType);
+        BillModel billModel = BillRepository.getBillByICode(billCode,billType);
         if (billModel != null) {
          return true;
         }

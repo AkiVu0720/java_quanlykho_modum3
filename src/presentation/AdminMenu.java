@@ -1,24 +1,17 @@
 package presentation;
 
+import Util.Color;
 import model.AccountModel;
 
 import java.util.Scanner;
 
 public class AdminMenu {
-    public static final String	BLACK= "\u001B[30m";
-    public static final String RED = "\u001B[31m";
-    public static final String RESET = "\u001B[0m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BACKGROUND_CYAN = "\u001B[45m";
-    public static final String	BACKGROUND_WHITE= "\u001B[47m";
-    private static final String GREEN = "\u001B[35m";
-    private static final String GREEN2 = "\u001B[32m";
-    public static void RunAdminMenu(Scanner scanner, AccountModel acc){
+    public static void handleAdminMenu(Scanner scanner, AccountModel acc){
         boolean isExit = false;
         do {
             System.out.println();
             System.out.println();
-            System.out.println(BACKGROUND_CYAN+"******************WAREHOUSE MANAGEMENT****************"+RESET);
+            System.out.println(Color.BACKGROUND_CYAN+"******************WAREHOUSE MANAGEMENT****************"+Color.RESET);
             System.out.println("1. Quản lý sản phẩm");
             System.out.println("2. Quản lý nhân viên");
             System.out.println("3. Quản lý tài khoản");
@@ -31,11 +24,11 @@ public class AdminMenu {
                 byte choice = Byte.parseByte(scanner.nextLine());
                 switch (choice){
                     case 1:
-                        ProductMenu.runProductMenu(scanner);
+                        ProductMenu.handleProductMenu(scanner);
                         break;
-                    case 2: EmpMenu.runEmpMenu(scanner);
+                    case 2: EmpMenu.handleEmpMenu(scanner);
                         break;
-                    case 3: AccMenu.runAccMenu(scanner);
+                    case 3: AccMenu.handleAccMenu();
                         break;
                     case 4: ImportBillMenu.runImportBillMenu(scanner,acc);
                         break;
@@ -47,11 +40,11 @@ public class AdminMenu {
                         isExit = true;
                         break;
                     default:
-                        System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
+                        System.out.println(Color.RED+"Lựa chọn của bạn không hợp lệ"+Color.RESET);
                         break;
                 }
             }catch (Exception e){
-                System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
+                System.out.println(Color.RED+"Lựa chọn của bạn không hợp lệ"+Color.RESET);
             }
 
         }while (!isExit);

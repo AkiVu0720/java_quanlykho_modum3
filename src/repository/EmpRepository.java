@@ -1,19 +1,16 @@
-package business;
+package repository;
 
 import config.MysqlConfig;
-import model.AccountModel;
 import model.EmployeeModel;
-import model.ProductModel;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmpBusiness {
+public class EmpRepository {
     public static List<EmployeeModel> getlistEmp(){
         Connection conn = null;
         CallableStatement callSt = null;

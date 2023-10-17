@@ -1,5 +1,6 @@
-package business;
+package repository;
 
+import Util.Color;
 import config.MysqlConfig;
 import model.AccountModel;
 
@@ -9,8 +10,9 @@ import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class AccBusiness {
+public class AccRepository {
     public static List<AccountModel> getListAcc(){
         Connection conn =null;
         CallableStatement callSt = null;
@@ -41,35 +43,7 @@ public class AccBusiness {
         }
         return modelList;
     }
-
-    public static AccountModel getAccByName( String name){
-        Connection conn =null;
-        CallableStatement callSt = null;
-        AccountModel acc = null;
-        try {
-            conn = MysqlConfig.openConnection();
-            callSt = conn.prepareCall("{call acc_checkAccByName(?)}");
-            //set tham số đầu vào.
-            callSt.setString(1, name);
-            ResultSet rs = callSt.executeQuery();
-            // Lấy giá trị tham số trả ra.
-            while (rs.next()){
-                acc = new AccountModel();
-                acc.setAcc_Id(rs.getInt("Acc_id"));
-                acc.setAcc_name(rs.getString("User_name"));
-                acc.setAcc_pass(rs.getString("Pass"));
-                acc.setRole_acc(rs.getBoolean("Permission"));
-                acc.setEmp_id(rs.getString("Emp_id"));
-                acc.setAcc_Status(rs.getBoolean("Acc_status"));
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            MysqlConfig.closeConnection(conn,callSt);
-        }
-        return acc;
-    }
-    public static List<AccountModel> searchAccByName( String name){
+    public static List<AccountModel> findAccountByName( String name){
         Connection conn =null;
         CallableStatement callSt = null;
         List<AccountModel>modelList = null;
@@ -125,9 +99,34 @@ public class AccBusiness {
         }
         return acc;
     }
-
-
-    public static AccountModel checkAcc( String name, String pass){
+    public static AccountModel getAccByName( String name){
+        Connection conn =null;
+        CallableStatement callSt = null;
+        AccountModel acc = null;
+        try {
+            conn = MysqlConfig.openConnection();
+            callSt = conn.prepareCall("{call acc_checkAccByName(?)}");
+            //set tham số đầu vào.
+            callSt.setString(1, name);
+            ResultSet rs = callSt.executeQuery();
+            // Lấy giá trị tham số trả ra.
+            while (rs.next()){
+                acc = new AccountModel();
+                acc.setAcc_Id(rs.getInt("Acc_id"));
+                acc.setAcc_name(rs.getString("User_name"));
+                acc.setAcc_pass(rs.getString("Pass"));
+                acc.setRole_acc(rs.getBoolean("Permission"));
+                acc.setEmp_id(rs.getString("Emp_id"));
+                acc.setAcc_Status(rs.getBoolean("Acc_status"));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            MysqlConfig.closeConnection(conn,callSt);
+        }
+        return acc;
+    }
+    public static AccountModel findAccountByUserNameAndPassWord( String name, String pass){
         Connection conn =null;
         CallableStatement callSt = null;
         AccountModel acc = null;
@@ -158,7 +157,7 @@ public class AccBusiness {
         }
         return acc;
     }
-    public static boolean createAcc( AccountModel acc){
+    public static boolean createAccount( AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
         boolean result = false;
@@ -179,7 +178,6 @@ public class AccBusiness {
         }
         return  result;
     }
-
     public static boolean updateAccStatus( int accId, boolean accStatus){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -198,7 +196,6 @@ public class AccBusiness {
         }
         return  result;
     }
-
     public static boolean checkExitsInAccByEmpById( String empId){
         Connection conn =null;
         CallableStatement callSt = null;

@@ -1,8 +1,6 @@
-package business;
+package repository;
 
 import config.MysqlConfig;
-import model.BillDetailModel;
-import model.BillModel;
 import model.ProductModel;
 
 import java.sql.CallableStatement;
@@ -12,7 +10,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotifyBusiness {
+public class NotifyRepository {
     public static List<ProductModel> SPNhieuNhat(String startDay, String endDay, Boolean billType){
         Connection conn = null;
         CallableStatement callSt = null;

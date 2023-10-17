@@ -1,22 +1,16 @@
 package presentation;
 
-import business.BillBusiness;
-import business.EmpBusiness;
-import business.NotifyBusiness;
+import Util.Color;
+import repository.EmpRepository;
+import repository.NotifyRepository;
 import model.EmployeeModel;
 import model.ProductModel;
-import validate.Validate;
+import Util.Validate;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class NotifyMenu {
-    public static final String RED = "\u001B[31m";
-    public static final String RESET = "\u001B[0m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BACKGROUND_CYAN = "\u001B[45m";
-    private static final String GREEN = "\u001B[35m";
-    private static final String GREEN2 = "\u001B[32m";
     static Validate validate = new Validate();
     public static final boolean BILL_TYPE_IMPORT  = true;
     public static final boolean BILL_TYPE_EXPORT  = false;
@@ -25,7 +19,7 @@ public class NotifyMenu {
         boolean isExit = false;
         do { System.out.println();
             System.out.println();
-            System.out.println(BACKGROUND_CYAN+"***********************REPORT MANAGEMENT*********************"+RESET);
+            System.out.println(Color.BACKGROUND_CYAN+"***********************REPORT MANAGEMENT*********************"+Color.RESET);
             System.out.println("1. Thống kê chi phí theo ngày, tháng, năm");
             System.out.println("2. Thống kê chi phí theo khoảng thời gian");
             System.out.println("3. Thống kê doanh thu theo ngày, tháng, năm");
@@ -41,9 +35,7 @@ public class NotifyMenu {
                 byte choice = Byte.parseByte(scanner.nextLine());
                 switch (choice) {
                     case 1:
-//                        ProductModel productModel = new ProductModel();
-//                        productModel  = NotifyBusiness.test();
-//                        productModel.test1();
+//
                          ThongKeChiPhi(scanner);
                         break;
                     case 2:
@@ -73,107 +65,104 @@ public class NotifyMenu {
                         isExit = true;
                         break;
                     default:
-                        System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
+                        System.out.println(Color.RED+"Lựa chọn của bạn không hợp lệ"+Color.RESET);
                         break;
                 }
             } catch (NumberFormatException numberFormatException){
-                System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
+                System.out.println(Color.RED+"Lựa chọn của bạn không hợp lệ"+Color.RESET);
             }
             catch (Exception e){
                 e.printStackTrace();
-                System.out.println(RED+"Lựa chọn của bạn không hợp lệ"+RESET);
+                System.out.println(Color.RED+"Lựa chọn của bạn không hợp lệ"+Color.RESET);
             }
         }while (!isExit) ;
     }
     public static void ThongKeChiPhi(Scanner scanner){
-        System.out.println(YELLOW+"Nhập ngày:"+RESET);
+        System.out.println(Color.YELLOW+"Nhập ngày:"+Color.RESET);
         String days = validate.validateDay(scanner);
-        int Tong = NotifyBusiness.ThongKeChiPhiTheoNgay(days);
-        System.out.println(YELLOW+"Tổng chi phí là: "+RESET+ Tong);
+        int Tong = NotifyRepository.ThongKeChiPhiTheoNgay(days);
+        System.out.println(Color.YELLOW+"Tổng chi phí là: "+Color.RESET+ Tong);
     }
     public static void ThongKeChiPhiTheoKhoangThoiGian(Scanner scanner){
-        System.out.println(YELLOW+"Ngày bắt đầu:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày bắt đầu:"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        System.out.println(YELLOW+"Ngày kết thúc:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày kết thúc:"+Color.RESET);
         String endDay = validate.validateDay(scanner);
-        int T0ngChiPhi = NotifyBusiness.ThongKeChiPhiTheoKhoangThoiGian(startDay,endDay);
-        System.out.println(YELLOW+"Tổng chi phí trong khoảng trên là: "+RESET+ T0ngChiPhi);
+        int T0ngChiPhi = NotifyRepository.ThongKeChiPhiTheoKhoangThoiGian(startDay,endDay);
+        System.out.println(Color.YELLOW+"Tổng chi phí trong khoảng trên là: "+Color.RESET+ T0ngChiPhi);
     }
     public static void ThongKeDoanhThuTheoNgay(Scanner scanner){
-        System.out.println(YELLOW+"Ngày muốn tìm kiếm"+RESET);
+        System.out.println(Color.YELLOW+"Ngày muốn tìm kiếm"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        int doanhThu = NotifyBusiness.DoanhThuTheoNgay(startDay);
-        System.out.println(YELLOW+"Doanh Thu của ngày là: "+RESET + doanhThu);
+        int doanhThu = NotifyRepository.DoanhThuTheoNgay(startDay);
+        System.out.println(Color.YELLOW+"Doanh Thu của ngày là: "+Color.RESET + doanhThu);
     }
     public static void ThongKeDoanhThuTheoKhoangThoiGian(Scanner scanner){
-        System.out.println(YELLOW+"Ngày bắt đầu:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày bắt đầu:"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        System.out.println(YELLOW+"Ngày kết thúc:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày kết thúc:"+Color.RESET);
         String endDay = validate.validateDay(scanner);
-        int doanhThu = NotifyBusiness.DoanhThuKhoangThoiGian(startDay,endDay);
-        System.out.println(YELLOW+"Doanh Thu của khung thời gian "+RESET + doanhThu);
-    }
-    public static void ThongKeNhanVienTheoTrangThai(){
-
+        int doanhThu = NotifyRepository.DoanhThuKhoangThoiGian(startDay,endDay);
+        System.out.println(Color.YELLOW+"Doanh Thu của khung thời gian "+Color.RESET + doanhThu);
     }
     public static void SanPhamNhapNhieu(Scanner scanner){
-        System.out.println(YELLOW+"Ngày bắt đầu:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày bắt đầu:"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        System.out.println(YELLOW+"Ngày kết thúc:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày kết thúc:"+Color.RESET);
         String endDay = validate.validateDay(scanner);
-        List<ProductModel> modelList= NotifyBusiness.SPNhieuNhat(startDay,endDay,BILL_TYPE_IMPORT);
-        System.out.println(YELLOW+"Sản Phẩm nhập nhiều "+RESET);
+        List<ProductModel> modelList= NotifyRepository.SPNhieuNhat(startDay,endDay,BILL_TYPE_IMPORT);
+        System.out.println(Color.YELLOW+"Sản Phẩm nhập nhiều "+Color.RESET);
         if (modelList.size()>0){
             outputMini();
             modelList.stream().forEach(ProductModel::outputStyle2);
         }else {
-            System.out.println(RED+"Không có sản phẩm nào"+RESET);
+            System.out.println(Color.RED+"Không có sản phẩm nào"+Color.RESET);
         }
     }
     public static void SanPhamNhapIt(Scanner scanner){ // Nhập vào ít
-        System.out.println(YELLOW+"Ngày bắt đầu:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày bắt đầu:"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        System.out.println(YELLOW+"Ngày kết thúc:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày kết thúc:"+Color.RESET);
         String endDay = validate.validateDay(scanner);
-        List<ProductModel> modelList= NotifyBusiness.SPItNhat(startDay,endDay,BILL_TYPE_IMPORT);
-        System.out.println(YELLOW+"Sản Phẩm nhập ít "+RESET);
+        List<ProductModel> modelList= NotifyRepository.SPItNhat(startDay,endDay,BILL_TYPE_IMPORT);
+        System.out.println(Color.YELLOW+"Sản Phẩm nhập ít "+Color.RESET);
         if (modelList.size()>0){
             outputMini();
             modelList.stream().forEach(ProductModel::outputStyle2);
         }else {
-            System.out.println(RED+"Không có sản phẩm nào"+RESET);
+            System.out.println(Color.RED+"Không có sản phẩm nào"+Color.RESET);
         }
     }
     public static void SanPhamXuatIt(Scanner scanner){
-        System.out.println(YELLOW+"Ngày bắt đầu:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày bắt đầu:"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        System.out.println(YELLOW+"Ngày kết thúc:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày kết thúc:"+Color.RESET);
         String endDay = validate.validateDay(scanner);
-        List<ProductModel> modelList= NotifyBusiness.SPItNhat(startDay,endDay,BILL_TYPE_EXPORT);
-        System.out.println(YELLOW+"Sản Phẩm xuất ít: "+RESET);
+        List<ProductModel> modelList= NotifyRepository.SPItNhat(startDay,endDay,BILL_TYPE_EXPORT);
+        System.out.println(Color.YELLOW+"Sản Phẩm xuất ít: "+Color.RESET);
         if (modelList.size()>0){
             outputMini();
             modelList.stream().forEach(ProductModel::outputStyle2);
         }else {
-            System.out.println(RED+"Không có sản phẩm nào"+RESET);
+            System.out.println(Color.RED+"Không có sản phẩm nào"+Color.RESET);
         }
     }
     public static void SanPhamXuatNhieu(Scanner scanner){
-        System.out.println(YELLOW+"Ngày bắt đầu:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày bắt đầu:"+Color.RESET);
         String startDay = validate.validateDay(scanner);
-        System.out.println(YELLOW+"Ngày kết thúc:"+RESET);
+        System.out.println(Color.YELLOW+"Ngày kết thúc:"+Color.RESET);
         String endDay = validate.validateDay(scanner);
-        List<ProductModel> modelList= NotifyBusiness.SPNhieuNhat(startDay,endDay,BILL_TYPE_EXPORT);
-        System.out.println(YELLOW+"Sản Phẩm xuất nhiều"+RESET);
+        List<ProductModel> modelList= NotifyRepository.SPNhieuNhat(startDay,endDay,BILL_TYPE_EXPORT);
+        System.out.println(Color.YELLOW+"Sản Phẩm xuất nhiều"+Color.RESET);
         if (modelList.size()>0){
             outputMini();
             modelList.stream().forEach(ProductModel::outputStyle2);
         }else {
-            System.out.println(RED+"Không có sản phẩm nào"+RESET);
+            System.out.println(Color.RED+"Không có sản phẩm nào"+Color.RESET);
         }
     }
     public static void ThongkeNhanVienTheoTrangThai(){
-        List<EmployeeModel> modelList = EmpBusiness.getlistEmp();
+        List<EmployeeModel> modelList = EmpRepository.getlistEmp();
         int HoatDong = 0;
         int NghiCheDo = 0;
         int NghiViec = 0;
@@ -187,12 +176,12 @@ public class NotifyMenu {
                 NghiViec++;
             }
         }
-        System.out.println(YELLOW+" Số Nhân Viên Đang Hoạt động: "+RESET+ HoatDong );
-        System.out.println(YELLOW+" Số Nhân Viên Nghỉ chế độ: "+RESET+ NghiCheDo);
-        System.out.println(YELLOW+" Số Nhân Viên nghỉ việc: "+RESET+NghiViec);
+        System.out.println(Color.YELLOW+" Số Nhân Viên Đang Hoạt động: "+Color.RESET+ HoatDong );
+        System.out.println(Color.YELLOW+" Số Nhân Viên Nghỉ chế độ: "+Color.RESET+ NghiCheDo);
+        System.out.println(Color.YELLOW+" Số Nhân Viên nghỉ việc: "+Color.RESET+NghiViec);
     }
     public  static void outputMini(){
-        System.out.printf(BACKGROUND_CYAN+"|\t%-7.10s| \t%-10.10s| \t%-7s\n",
-                "Mã SP", "Tên Sp","Số Lg\t"+RESET);
+        System.out.printf(Color.BACKGROUND_CYAN+"|\t%-7.10s| \t%-10.10s| \t%-7s\n",
+                "Mã SP", "Tên Sp","Số Lg\t"+Color.RESET);
     }
 }

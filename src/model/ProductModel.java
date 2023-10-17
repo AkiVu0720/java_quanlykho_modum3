@@ -1,7 +1,8 @@
 package model;
 
-import business.ProductBusiness;
-import validate.Validate;
+import repository.ProductRepository;
+import Util.Validate;
+import service.ProductService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -103,14 +104,7 @@ public class ProductModel {
         this.batch = validateBatch(scanner);
         this.product_status = validateProductStatus(scanner);
     }
-    public void inputProductNoId(Scanner scanner){
-        this.product_Name = validateProductName(scanner);
-        this.manufacturer = validateManufacturer(scanner);
-        this.date = validateDay(scanner);
-        this.batch = validateBatch(scanner);
-        this.product_status = validateProductStatus(scanner);
-    }
-    public void outputProduct(){
+    public void displayMessageProduct(){
         String statusStr = this.product_status?"Hoạt động":"Không hoạt động";
         System.out.printf("|\t%-10.10s| \t%-15.15s| \t%-15.15s| \t%-5d| \t%-5d| \t%-12.15s| \t%-12.15s \n",
                 this.product_Id, this.product_Name, this.manufacturer, this.batch, this.quantity, this.date, statusStr);
@@ -120,19 +114,14 @@ public class ProductModel {
         System.out.printf("|\t%-7.10s| \t%-10.10s| \t%-5d\n",
                 this.product_Id, this.product_Name,this.quantity);
     }
-    public void test1(){
-        System.out.printf("|\t%-10.10s|\n",
-                this.quantity);
-    }
-
-
     //5 Business methods
     public String validateProductId(Scanner scanner){
         do {
             System.out.println("Mã sản phẩm:");
             String productId = scanner.nextLine();
             byte error = 0;
-            if (ProductBusiness.checkById(productId)!= null){
+            ProductModel product = ProductService.findProductById(productId);
+            if (product!= null){
                 System.out.println("Mã sản phẩm đã tồn tại");
                 error++;
             }
@@ -154,7 +143,8 @@ public class ProductModel {
             System.out.println("Tên sản phẩm:");
             String productName = scanner.nextLine();
             byte error = 0;
-            if (ProductBusiness.checkByName(productName)!=0){
+            List<ProductModel> modelList = ProductService.findListProductByName(productName);
+            if (modelList.size()>0){
                 System.out.println(" Tên sản phẩm đã tồn tại");
                 error++;
             }
@@ -196,7 +186,7 @@ public class ProductModel {
             System.out.println("Ngày tạo (yyyy-MM-dd)");
             try {
                 String dateInput = scanner.nextLine();
-                if (!validate.isStrNull(dateInput)){
+                if (!Validate.isStrNull(dateInput)){
                     Date dateStr = format.parse(dateInput);
                     //Convert từ java.util.date sang java.sql.date
                     java.sql.Date dateSql = new java.sql.Date(dateStr.getTime());

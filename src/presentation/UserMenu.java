@@ -1,7 +1,8 @@
 package presentation;
 
-import business.BillBusiness;
+import Controller.BillController;
 import model.AccountModel;
+import service.BillService;
 
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class UserMenu {
     public static final boolean BILL_TYPE_IMPORT  = true;
     public static final boolean BILL_TYPE_EXPORT  = false;
 
-    public  static void RunUserMenu(Scanner scanner, AccountModel acc){
+    public  static void handleUserMenu(Scanner scanner, AccountModel acc){
         boolean isExit = false;
         do {
             System.out.println();
@@ -35,28 +36,28 @@ public class UserMenu {
                 byte choice = Byte.parseByte(scanner.nextLine());
                 switch (choice){
                     case 1:
-                        ImportBillMenu.BillDetailMenu(BILL_TYPE_IMPORT, acc);
+                        BillService.getListBillFull(BILL_TYPE_IMPORT, acc);
                         break;
                     case 2:
-                        ImportBillMenu.creatInBill(scanner,BILL_TYPE_IMPORT,acc);
+                        BillController.creatBill(BILL_TYPE_IMPORT,acc);
                         break;
                     case 3:
-                        ImportBillMenu.runUpdateImportBill(scanner,BILL_TYPE_IMPORT,acc);
+                        BillController.updateBill(BILL_TYPE_IMPORT,acc);
                         break;
                     case 4:
-                        ImportBillMenu.searchBillByCode(scanner,BILL_TYPE_IMPORT,acc);
+                        BillController.findBillByCode(BILL_TYPE_IMPORT,acc);
                         break;
                     case 5:
-                        ImportBillMenu.BillDetailMenu(BILL_TYPE_EXPORT,acc);
+                        BillService.getListBillFull(BILL_TYPE_EXPORT,acc);
                         break;
                     case 6:
-                        ImportBillMenu.creatInBill(scanner,BILL_TYPE_EXPORT,acc);
+                        BillController.creatBill(BILL_TYPE_EXPORT,acc);
                         break;
                     case 7:
-                        ImportBillMenu.runUpdateImportBill(scanner,BILL_TYPE_EXPORT,acc);
+                        BillController.updateBill(BILL_TYPE_EXPORT,acc);
                         break;
                     case 8:
-                        ImportBillMenu.searchBillByCode(scanner,BILL_TYPE_EXPORT,acc);
+                        BillController.findBillByCode(BILL_TYPE_EXPORT,acc);
                         break;
                     case 0:
                         isExit = true;

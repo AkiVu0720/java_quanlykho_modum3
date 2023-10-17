@@ -1,8 +1,8 @@
 package model;
 
-import business.AccBusiness;
-import business.EmpBusiness;
-import validate.Validate;
+import repository.AccRepository;
+import repository.EmpRepository;
+import Util.Validate;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -98,7 +98,7 @@ public class AccountModel {
         this.acc_Status = validateAccStatus(scanner);
 
     }
-    public void outputAcc(){
+    public void displayAccountMessage(){
         String acc_status_in = this.acc_Status ? "Hoạt động" : "Khoá";
         String role = this.role_acc ? "ADMIN" : "USER";
         System.out.printf("|\t%-6d |\t%-15.15s |\t%-10.10s |\t%-10.10s |\t%-10.10s |\t%-10.10s \n",
@@ -125,7 +125,7 @@ public class AccountModel {
                 System.out.printf("Độ dài không quá %d kí tự \n.", LENGTH_MAX_NAME);
                 error++;
             }
-           AccountModel acc = AccBusiness.getAccByName(userName);
+           AccountModel acc = AccRepository.getAccByName(userName);
             if (acc!=null){
                 System.out.println("Tên tài khoản đã tồn tại");
                 error++;
@@ -178,7 +178,7 @@ public class AccountModel {
                 System.out.println("Mã nhân viên:");
                 String empId = scanner.nextLine();
                 byte error = 0;
-                EmployeeModel  emp = EmpBusiness.getEmpById(empId);
+                EmployeeModel  emp = EmpRepository.getEmpById(empId);
                 if (emp == null){
                     System.out.println("Nhân viên này không tồn tại");
                     error++;
@@ -192,7 +192,7 @@ public class AccountModel {
                     System.out.println("Không được để trống.");
                     error++;
                 }
-                if(AccBusiness.checkExitsInAccByEmpById(empId)){
+                if(AccRepository.checkExitsInAccByEmpById(empId)){
                     System.out.println("Nhân viên này đã được tạo tài khoản.");
                     error++;
                 }

@@ -1,8 +1,7 @@
 package model;
 
-import business.AccBusiness;
-import business.EmpBusiness;
-import validate.Validate;
+import repository.EmpRepository;
+import Util.Validate;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -12,46 +11,54 @@ public class BillModel {
     public static final int LENGTH_MIN = 0;
     public static final int LENGTH_MAX_CODE = 10;
     //1 Attributes
-    private  int bill_id;
-    private String bill_Code;
-    private boolean bill_Type;
-    private String emp_id_created;
+    private  int billId;
+    private String billCode;
+    private boolean billType;
+    private String empIdCreated;
     private String dayCreate;
-    private String emp_id_auth;
-    private String auth_date;
-    private int bill_Status;
+    private String empIdAuth;
+    private String authDate;
+    private int billStatus;
     //2 get,set
 
-    public int getBill_id() {
-        return bill_id;
+    public static Validate getValidate() {
+        return validate;
     }
 
-    public void setBill_id(int bill_id) {
-        this.bill_id = bill_id;
+    public static void setValidate(Validate validate) {
+        BillModel.validate = validate;
     }
 
-    public String getBill_Code() {
-        return bill_Code;
+    public int getBillId() {
+        return billId;
     }
 
-    public void setBill_Code(String bill_Code) {
-        this.bill_Code = bill_Code;
+    public void setBillId(int billId) {
+        this.billId = billId;
     }
 
-    public boolean isBill_Type() {
-        return bill_Type;
+    public String getBillCode() {
+        return billCode;
     }
 
-    public void setBill_Type(boolean bill_Type) {
-        this.bill_Type = bill_Type;
+    public void setBillCode(String billCode) {
+        this.billCode = billCode;
     }
 
-    public String getEmp_id_created() {
-        return emp_id_created;
+    public boolean isBillType() {
+        return billType;
     }
 
-    public void setEmp_id_created(String emp_id_created) {
-        this.emp_id_created = emp_id_created;
+    public void setBillType(boolean billType) {
+        this.billType = billType;
+    }
+
+    public String getEmpIdCreated() {
+        return empIdCreated;
+    }
+
+    public void setEmpIdCreated(String empIdCreated) {
+        this.empIdCreated = empIdCreated;
     }
 
     public String getDayCreate() {
@@ -62,59 +69,62 @@ public class BillModel {
         this.dayCreate = dayCreate;
     }
 
-    public String getEmp_id_auth() {
-        return emp_id_auth;
+    public String getEmpIdAuth() {
+        return empIdAuth;
     }
 
-    public void setEmp_id_auth(String emp_id_auth) {
-        this.emp_id_auth = emp_id_auth;
+    public void setEmpIdAuth(String empIdAuth) {
+        this.empIdAuth = empIdAuth;
     }
 
-    public String getAuth_date() {
-        return auth_date;
+    public String getAuthDate() {
+        return authDate;
     }
 
-    public void setAuth_date(String auth_date) {
-        this.auth_date = auth_date;
+    public void setAuthDate(String authDate) {
+        this.authDate = authDate;
     }
 
-    public int getBill_Status() {
-        return bill_Status;
+    public int getBillStatus() {
+        return billStatus;
     }
 
-    public void setBill_Status(int bill_Status) {
-        this.bill_Status = bill_Status;
+    public void setBillStatus(int billStatus) {
+        this.billStatus = billStatus;
     }
+
+
     //3 Constructor
 
     public BillModel() {
     }
 
-    public BillModel(int bill_id, String bill_Code, boolean bill_Type,
-                     String emp_id_created, String dayCreate,
-                     String emp_id_auth, String auth_date, int bill_Status) {
-        this.bill_id = bill_id;
-        this.bill_Code = bill_Code;
-        this.bill_Type = bill_Type;
-        this.emp_id_created = emp_id_created;
+    public BillModel(int billId, String billCode, boolean billType,
+                     String empIdCreated, String dayCreate, String empIdAuth,
+                     String authDate, int billStatus) {
+        this.billId = billId;
+        this.billCode = billCode;
+        this.billType = billType;
+        this.empIdCreated = empIdCreated;
         this.dayCreate = dayCreate;
-        this.emp_id_auth = emp_id_auth;
-        this.auth_date = auth_date;
-        this.bill_Status = bill_Status;
+        this.empIdAuth = empIdAuth;
+        this.authDate = authDate;
+        this.billStatus = billStatus;
     }
+
     //4 input, output
     public void inputBill(Scanner scanner, boolean billType){
         System.out.println("Tạo Mã Code:");
-        this.bill_Code = validateBillCode(scanner, billType);
+        this.billCode = validateBillCode(scanner, billType);
 //        System.out.println("Nhân viên tạo");
 //        this.emp_id_created = validteEmpId(scanner);
         System.out.println("Ngày tạo (yyyy-MM-dd)");
         this.dayCreate = validateDay(scanner);
     }
     public void output(){
-        String billType = this.bill_Type?"P.nhập":"P.xuất";
+        String billType = this.billType?"P.nhập":"P.xuất";
         String statusBill = "";
-        switch (this.bill_Status) {
+        switch (this.billStatus) {
             case 0:
                 statusBill = "Tạo";
                 break;
@@ -125,14 +135,14 @@ public class BillModel {
                 statusBill = "Duyệt";
                 break;
         }
-        EmployeeModel  emp = EmpBusiness.getEmpById(this.emp_id_created);
+        EmployeeModel  emp = EmpRepository.getEmpById(this.empIdCreated);
         String nameEmpCreated = emp.getEmp_Name();
-        EmployeeModel  empAuth = EmpBusiness.getEmpById(this.emp_id_auth);
+        EmployeeModel  empAuth = EmpRepository.getEmpById(this.empIdCreated);
         String nameEmpAuth = empAuth!=null?empAuth.getEmp_Name():"Chưa có";
-        String dayauth = this.auth_date ==null ? "Chưa duyệt" : this.auth_date;
+        String dayAuth = this.authDate ==null ? "Chưa duyệt" : this.authDate;
         System.out.printf("|\t%-4d |\t%-7.20s | %-7.10s | %-14.30s | %-9.10s | %-9.10s | %-7.10s | %-5.10s",
-                this.bill_id, this.bill_Code,billType , nameEmpCreated,
-                this.dayCreate, nameEmpAuth, dayauth,statusBill
+                this.billId, this.billCode,billType , nameEmpCreated,
+                this.dayCreate, nameEmpAuth, dayAuth,statusBill
         );
 
     }
@@ -191,13 +201,13 @@ public class BillModel {
 
         } while (true);
     }
-    public static String validteEmpId(Scanner scanner){
+    public static String validateEmpId(Scanner scanner){
 
             do {
                 System.out.println("Mã nhân viên:");
                 String empId = scanner.nextLine();
                 byte error = 0;
-                EmployeeModel  emp = EmpBusiness.getEmpById(empId);
+                EmployeeModel  emp = EmpRepository.getEmpById(empId);
                 if (emp == null){
                     System.out.println("Nhân viên này không tồn tại");
                     error++;
@@ -221,20 +231,20 @@ public class BillModel {
         do {
             System.out.println("Trạng thái :");
             System.out.println("0.Tạo mới, 1.Huỷ, 2.Duyệt");
-            String emp_status_str = scanner.nextLine();
+            String empStatus = scanner.nextLine();
             byte error = 0;
             try {
-                if (validate.isStrNull(emp_status_str)){
+                if (validate.isStrNull(empStatus)){
                     System.out.println("Không được để trống");
                     error++;
                 }
                 String regex = "[0-2]+";
-                if (!Pattern.matches(regex,emp_status_str)){
+                if (!Pattern.matches(regex,empStatus)){
                     System.out.println("Lựa chọn của bạn không tồn tại");
                     error++;
                 }
                 if (error == 0){
-                    int emp_status = Integer.parseInt(emp_status_str);
+                    int emp_status = Integer.parseInt(empStatus);
                     return emp_status;
                 }
 

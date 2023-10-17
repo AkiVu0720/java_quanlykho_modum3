@@ -1,8 +1,8 @@
 package model;
 
-import business.BillBusiness;
-import business.ProductBusiness;
-import validate.Validate;
+import repository.ProductRepository;
+import Util.Validate;
+import service.ProductService;
 
 import java.util.Scanner;
 
@@ -97,7 +97,8 @@ public class BillDetailModel extends BillModel {
             System.out.println("Mã sản phẩm:");
             String productId = scanner.nextLine();
             byte error = 0;
-            if (ProductBusiness.checkById(productId) == null){
+            ProductModel product = ProductService.findProductById(productId);
+            if (product == null){
                 System.out.println("Mã sản phẩm không tồn tại");
                 error++;
             }

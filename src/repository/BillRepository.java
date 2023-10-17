@@ -1,4 +1,4 @@
-package business;
+package repository;
 
 import config.MysqlConfig;
 import model.AccountModel;
@@ -12,8 +12,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillBusiness {
-    public static List<BillModel> getlistBill(boolean billType, AccountModel acc,int dataPage, int indexPage){
+public class BillRepository {
+    public static List<BillModel> getListBillSplitPage(boolean billType, AccountModel acc,int dataPage, int indexPage){
         Connection conn = null;
         CallableStatement callSt = null;
         List<BillModel>modelList = null;
@@ -29,14 +29,14 @@ public class BillBusiness {
             modelList = new ArrayList<>();
             while (rs.next()){
                 BillModel bill = new BillModel();
-                bill.setBill_id(rs.getInt("Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 modelList.add(bill);
             }
 
@@ -47,7 +47,7 @@ public class BillBusiness {
         }
         return  modelList;
     }
-    public static List<BillModel> getSizeBill(boolean billType, AccountModel acc){
+    public static List<BillModel> getListBill(boolean billType, AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
         List<BillModel>modelList = null;
@@ -61,14 +61,14 @@ public class BillBusiness {
             modelList = new ArrayList<>();
             while (rs.next()){
                 BillModel bill = new BillModel();
-                bill.setBill_id(rs.getInt("Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 modelList.add(bill);
             }
 
@@ -92,16 +92,15 @@ public class BillBusiness {
             modelList = new ArrayList<>();
             while (rs.next()){
                 BillDetailModel bill = new BillDetailModel();
-                bill.setBill_id(rs.getInt("bd.Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("bd.Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
-                bill.setBillId(rs.getInt("Bill_Id"));
                 bill.setProductId(rs.getString("Product_Id"));
                 bill.setQuantity(rs.getInt("Quantity"));
                 bill.setPrice(rs.getFloat("Price"));
@@ -115,7 +114,7 @@ public class BillBusiness {
         }
         return  modelList;
     }
-    public static List<BillDetailModel> getlistBillDetail_phantrang(boolean billType, int datapage, int indexpage, AccountModel acc){
+    public static List<BillDetailModel> getlistBillDetailSplitPage(boolean billType, int dataPage, int indexPage, AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
         List<BillDetailModel>modelList = null;
@@ -123,23 +122,22 @@ public class BillBusiness {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call bill_details_Size(?,?,?,?)}");
             callSt.setBoolean(1,billType);
-            callSt.setInt(2,datapage);
-            callSt.setInt(3,indexpage);
+            callSt.setInt(2,dataPage);
+            callSt.setInt(3,indexPage);
             callSt.setString(4,acc.getEmp_id());
             ResultSet rs = callSt.executeQuery();
             modelList = new ArrayList<>();
             while (rs.next()){
                 BillDetailModel bill = new BillDetailModel();
-                bill.setBill_id(rs.getInt("bd.Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("bd.Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
-                bill.setBillId(rs.getInt("Bill_Id"));
                 bill.setProductId(rs.getString("Product_Id"));
                 bill.setQuantity(rs.getInt("Quantity"));
                 bill.setPrice(rs.getFloat("Price"));
@@ -153,7 +151,8 @@ public class BillBusiness {
         }
         return  modelList;
     }
-    public static List<BillDetailModel> getlistBillDetailByRole(boolean billType, AccountModel acc){
+    /*
+    public static List<BillDetailModel> getListBillDetailByRole(boolean billType, AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
         List<BillDetailModel>modelList = null;
@@ -190,8 +189,7 @@ public class BillBusiness {
         }
         return  modelList;
     }
-
-
+    */
     public static boolean createBill(BillDetailModel bill){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -199,9 +197,9 @@ public class BillBusiness {
         try {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call Bill_Create(?,?,?)}");
-            callSt.setBoolean(1,bill.isBill_Type());
-            callSt.setString(2, bill.getBill_Code());
-            callSt.setString(3, bill.getEmp_id_created());
+            callSt.setBoolean(1,bill.isBillType());
+            callSt.setString(2, bill.getBillCode());
+            callSt.setString(3, bill.getEmpIdCreated());
             callSt.executeUpdate();
             result = true;
 
@@ -212,7 +210,6 @@ public class BillBusiness {
         }
         return  result;
     }
-
     public static boolean updateBill(BillDetailModel bill, boolean billType){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -221,10 +218,10 @@ public class BillBusiness {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call Bill_update(?,?,?,?,?,?,?,?)}");
             callSt.setBoolean(1,billType);
-            callSt.setInt(2,bill.getBill_id());
-            callSt.setString(3, bill.getEmp_id_created());
+            callSt.setInt(2,bill.getBillId());
+            callSt.setString(3, bill.getEmpIdCreated());
             callSt.setString(4, bill.getDayCreate());
-            callSt.setInt(5, bill.getBill_Status());
+            callSt.setInt(5, bill.getBillStatus());
             callSt.setString(6, bill.getProductId());
             callSt.setInt(7, bill.getQuantity());
             callSt.setFloat(8, bill.getPrice());
@@ -238,7 +235,6 @@ public class BillBusiness {
         }
         return  result;
     }
-
     public static boolean updateBillCode(BillModel bill){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -246,8 +242,8 @@ public class BillBusiness {
         try {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call Bill_updateBillCode(?,?)}");
-            callSt.setInt(1,bill.getBill_id());
-            callSt.setString(2, bill.getBill_Code());
+            callSt.setInt(1,bill.getBillId());
+            callSt.setString(2, bill.getBillCode());
             callSt.executeUpdate();
             result = true;
 
@@ -265,10 +261,10 @@ public class BillBusiness {
         try {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call Bill_check_2(?,?,?,?)}");
-            callSt.setString(1,bill.getEmp_id_auth());
-            callSt.setString(2, bill.getBill_Code());
-            callSt.setInt(3, bill.getBill_Status());
-            callSt.setBoolean(4, bill.isBill_Type());
+            callSt.setString(1,bill.getEmpIdAuth());
+            callSt.setString(2, bill.getBillCode());
+            callSt.setInt(3, bill.getBillStatus());
+            callSt.setBoolean(4, bill.isBillType());
             callSt.executeUpdate();
             result = true;
         } catch (Exception ex){
@@ -278,7 +274,6 @@ public class BillBusiness {
         }
         return  result;
     }
-
     public static boolean createBillDetail(BillDetailModel bill){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -314,14 +309,14 @@ public class BillBusiness {
             ResultSet rs = callSt.executeQuery();
             while (rs.next()){
                 bill = new BillDetailModel();
-                bill.setBill_id(rs.getInt("bd.Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("bd.Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
                 bill.setBillId(rs.getInt("Bill_Id"));
                 bill.setProductId(rs.getString("Product_Id"));
@@ -349,14 +344,14 @@ public class BillBusiness {
             modelList = new ArrayList<>();
             while (rs.next()){
                 BillDetailModel bill = new BillDetailModel();
-                bill.setBill_id(rs.getInt("bd.Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("bd.Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
                 bill.setBillId(rs.getInt("Bill_Id"));
                 bill.setProductId(rs.getString("Product_Id"));
@@ -372,7 +367,6 @@ public class BillBusiness {
         }
         return  modelList;
     }
-
     public static BillDetailModel getBillDetailById(int billDetailId){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -384,14 +378,14 @@ public class BillBusiness {
             ResultSet rs = callSt.executeQuery();
             while (rs.next()){
                 bill = new BillDetailModel();
-                bill.setBill_id(rs.getInt("bd.Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("b.Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
                 bill.setBillId(rs.getInt("Bill_Id"));
                 bill.setProductId(rs.getString("Product_Id"));
@@ -406,7 +400,6 @@ public class BillBusiness {
         }
         return  bill;
     }
-
     public static BillModel getBillByICode(String billCode, boolean billType){
         Connection conn = null;
         CallableStatement callSt = null;
@@ -419,14 +412,14 @@ public class BillBusiness {
             ResultSet rs = callSt.executeQuery();
             while (rs.next()){
                 bill = new BillModel();
-                bill.setBill_id(rs.getInt("Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
             }
 
         } catch (Exception ex){
@@ -436,7 +429,7 @@ public class BillBusiness {
         }
         return  bill;
     }
-    public static List<BillDetailModel> searchlistBillDetail(String billCode,boolean billType, AccountModel acc){
+    public static List<BillDetailModel> findListBillDetail(String billCode,boolean billType, AccountModel acc){
         Connection conn = null;
         CallableStatement callSt = null;
         List<BillDetailModel>modelList = null;
@@ -451,20 +444,19 @@ public class BillBusiness {
             while (rs.next()){
                 BillDetailModel bill = new BillDetailModel();
                 bill = new BillDetailModel();
-                bill.setBill_id(rs.getInt("bd.Bill_id"));
-                bill.setBill_Code(rs.getString("Bill_Code"));
-                bill.setBill_Type(rs.getBoolean("Bill_Type"));
-                bill.setEmp_id_created(rs.getString("Emp_id_created"));
+                bill.setBillId(rs.getInt("bd.Bill_id"));
+                bill.setBillCode(rs.getString("Bill_Code"));
+                bill.setBillType(rs.getBoolean("Bill_Type"));
+                bill.setEmpIdCreated(rs.getString("Emp_id_created"));
                 bill.setDayCreate(rs.getString("Created"));
-                bill.setEmp_id_auth(rs.getString("Emp_id_auth"));
-                bill.setAuth_date(rs.getString("Auth_date"));
-                bill.setBill_Status(rs.getInt("Bill_Status"));
+                bill.setEmpIdAuth(rs.getString("Emp_id_auth"));
+                bill.setAuthDate(rs.getString("Auth_date"));
+                bill.setBillStatus(rs.getInt("Bill_Status"));
                 bill.setBillDetailId(rs.getInt("Bill_Detail_Id"));
                 bill.setBillId(rs.getInt("Bill_Id"));
                 bill.setProductId(rs.getString("Product_Id"));
                 bill.setQuantity(rs.getInt("Quantity"));
                 bill.setPrice(rs.getFloat("Price"));
-
                 modelList.add(bill);
             }
 
@@ -482,9 +474,9 @@ public class BillBusiness {
         try {
             conn = MysqlConfig.openConnection();
             callSt = conn.prepareCall("{call Bill_check_All(?,?,?,?,?)}");
-            callSt.setString(1,bill.getEmp_id_auth());
-            callSt.setString(2, bill.getBill_Code());
-            callSt.setInt(3, bill.getBill_Status());
+            callSt.setString(1,bill.getEmpIdAuth());
+            callSt.setString(2, bill.getBillCode());
+            callSt.setInt(3, bill.getBillStatus());
             callSt.registerOutParameter(4, Types.INTEGER);
             callSt.setBoolean(5,BillStatus);
             callSt.execute();
